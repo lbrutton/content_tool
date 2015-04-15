@@ -11,12 +11,15 @@ task :get_games => :environment do
 	body_length = response_body.length
 		#game_indexes = (0..(body_length-1)).to_a.sort{rand() - 0.5}[0..5]
 		for i in (0..body_length)
-			Game.create(game_name: response_body[i]["creatives"]["title"], 
-				#icon: response_body[i]["creatives"]["icon_url"],
-				english_promo: response_body[i]["creatives"]["description"],
+			Game.create(game_name: response_body[i]["creatives"]["title"],
+				platform: response_body[i]["app_details"]["platform"],				
+				bundle_id: response_body[i]["app_details"]["bundle_id"],
+				in_db: true,
+				english_vid: response_body[i]["creatives"]["video_url"],
 				landscape: response_body[i]["creatives"]["banner_url"],
-				square_banner: response_body[i]["standard_banner_url"],
-				english_vid: response_body[i]["video_url"])
+				square_banner: response_body[i]["creatives"]["standard_banner_url"],
+				#icon: response_body[i]["creatives"]["icon_url"],
+				english_promo: response_body[i]["creatives"]["description"])
 			puts response_body[i]["creatives"]["title"]
 		end
 	puts "task finished"
