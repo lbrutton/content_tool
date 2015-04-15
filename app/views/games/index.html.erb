@@ -1,0 +1,9 @@
+<ul>
+<% @games.each do |game| %>
+<li>
+<%= game.game_name %>
+<br><%= game.english_promo %>
+<br><%= game.in_db %>
+<br><%= game.english_vid %>
+</li>
+<% end %>
