@@ -1,12 +1,23 @@
 desc "get games from API and add to DB"
 task :get_games => :environment do 
 	puts "starting task..."
-	api_uri = URI "http://bulk.applift.com/api/bulk/v1/promotions?app_token=cc2a5ccfbfb53107ae12cb908c2b8799c81556ba5f12cc3fe61fe96606a80210&&countries%5B%5D=DEU"
+	api_uri = URI "http://bulk.applift.com/api/bulk/v1/promotions?app_token=cc2a5ccfbfb53107ae12cb908c2b8799c81556ba5f12cc3fe61fe96606a80210"
 	response = Net::HTTP.start(api_uri.host, api_uri.port) do |http|
 	  request = Net::HTTP::Get.new api_uri.request_uri
 	  http.request request
 	end
 	response_body = JSON.parse response.body
-	puts response_body[0]
+	#Rake::Task['db:reset'].invoke
+	body_length = response_body.length
+		#game_indexes = (0..(body_length-1)).to_a.sort{rand() - 0.5}[0..5]
+		for i in (0..body_length)
+			Game.create(game_name: response_body[i]["creatives"]["title"], 
+				#icon: response_body[i]["creatives"]["icon_url"],
+				english_promo: response_body[i]["creatives"]["description"],
+				landscape: response_body[i]["creatives"]["banner_url"],
+				square_banner: response_body[i]["standard_banner_url"],
+				english_vid: response_body[i]["video_url"])
+			puts response_body[i]["creatives"]["title"]
+		end
 	puts "task finished"
 end
