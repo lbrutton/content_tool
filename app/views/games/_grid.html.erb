@@ -1,22 +1,36 @@
-<%= grid(@tasks_grid) do |g|
+<%= grid(@tasks_grid, upper_pagination_panel: true) do |g|
 
-  g.column do |task|
-    task.id
-  end
-
-  g.column  do |task|
-    task.game_name
-  end
-
-  g.column do |task|
-    task.landscape
-  end
-
-  g.column do |task|
+  g.column name:'In DB?', attribute:'in_db' do |task|
     task.in_db? ? 'Yes' : 'No'
   end
 
-  g.column do |task|
-    link_to('Edit', '#')
+  g.column name: 'App name', attribute:'game_name' do |task|
+    task.game_name
   end
+
+  g.column name: 'Promo', attribute:'english_promo' do |task|
+      task.english_promo
+  end
+
+  g.column name: 'Landscape image', attribute:'landscape' do |task|
+    link_to 'See image', task.landscape, :target => "_blank"
+  end
+
+  g.column name:'300x250 banner', attribute:'square_banner' do |task|
+    if task.square_banner != "empty"
+      link_to 'See banner', task.square_banner, :target => "_blank"
+    else
+      task.square_banner
+    end
+  end
+
+  g.column name:'video', attribute:'english_vid' do |task|
+    if task.english_vid != "empty"
+      link_to 'Watch video', task.english_vid, :target => "_blank"
+    else
+      task.english_vid
+    end
+  end    
+
 end %>
+

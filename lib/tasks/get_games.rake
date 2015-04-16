@@ -7,7 +7,7 @@ task :get_games => :environment do
 	  http.request request
 	end
 	response_body = JSON.parse response.body
-	#Rake::Task['db:reset'].invoke
+	Rake::Task['db:reset'].invoke
 	body_length = response_body.length
 		#game_indexes = (0..(body_length-1)).to_a.sort{rand() - 0.5}[0..5]
 		for i in (0..body_length)
