@@ -8,6 +8,10 @@
     task.game_name
   end
 
+  g.column name: 'Platform', attribute:'platform', custom_filter: ['iOS', 'Android'] do |task|
+    task.platform
+  end
+
   g.column name: 'Promo', attribute:'english_promo' do |task|
       task.english_promo
   end
