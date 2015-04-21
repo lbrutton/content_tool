@@ -1,3 +1,16 @@
+<div class="dashboard-widget">
+  <h4> General overview (very rough draft) </h4>
+  Total games available for this account: <%= @total_games %>
+  <br>
+  Games without promo text in the requested language: <%= @total_games_without_promo %> / <%= @total_games %>
+  <br>
+  Games without 300x250 banners: <%= @total_games_without_square_banners %> / <%= @total_games %>
+  <br>
+  Games without 320x50 banners: <%= @total_games_without_flat_banners %> / <%= @total_games %>
+  <br>
+  Games without video in the requested language: <%= @total_games_without_video %> / <%= @total_games %>
+</div>
+
 <h1 class="header text-center"> Content tool </h1>
 <div class="main-page">
   <div class="row-fluid">
