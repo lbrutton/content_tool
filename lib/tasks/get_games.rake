@@ -18,8 +18,8 @@ task :get_games => :environment do
 				in_db: true,
 				english_vid: response_body[i]["creatives"]["video_url"],
 				landscape: response_body[i]["creatives"]["banner_url"],
-				square_banner: response_body[i]["creatives"]["standard_banner_url"],
-				#icon: response_body[i]["creatives"]["icon_url"],
+				square_banner: response_body[i]["creatives"]["standard_interstitial_url"],
+				flat_banner: response_body[i]["creatives"]["standard_banner_url"],
 				english_promo: response_body[i]["creatives"]["description"])
 			puts response_body[i]["creatives"]["title"]
 		end

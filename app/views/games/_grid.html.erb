@@ -28,6 +28,14 @@
     end
   end
 
+  g.column name:'320x50 banner', attribute:'flat_banner' do |task|
+    if task.flat_banner != "empty"
+      link_to 'See banner', task.flat_banner, :target => "_blank"
+    else
+      task.flat_banner
+    end
+  end
+
   g.column name:'video', attribute:'english_vid' do |task|
     if task.english_vid != "empty"
       link_to 'Watch video', task.english_vid, :target => "_blank"
