@@ -17,6 +17,7 @@ task :get_games => :environment do
 				bundle_id: response_body[i]["app_details"]["bundle_id"],
 				in_db: true,
 				english_vid: response_body[i]["creatives"]["video_url"],
+				portrait: response_body[i]["creatives"]["portrait_banner_url"],
 				landscape: response_body[i]["creatives"]["banner_url"],
 				square_banner: response_body[i]["creatives"]["standard_interstitial_url"],
 				flat_banner: response_body[i]["creatives"]["standard_banner_url"],

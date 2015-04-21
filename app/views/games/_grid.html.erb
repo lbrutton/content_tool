@@ -20,6 +20,10 @@
     link_to 'See image', task.landscape, :target => "_blank"
   end
 
+  g.column name: 'Portrait image', attribute:'portrait' do |task|
+    link_to 'See image', task.portrait, :target => "_blank"
+  end
+
   g.column name:'300x250 banner', attribute:'square_banner' do |task|
     if task.square_banner != "empty"
       link_to 'See banner', task.square_banner, :target => "_blank"
