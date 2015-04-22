@@ -2,31 +2,54 @@ require 'net/http'
 desc "get games from Applift HO and add to DB"
 task :get_HO_applift_games => :environment do 
 	puts "starting task..."
-	api_uri = URI "http://api.hasoffers.com/Apiv3/json?NetworkId=hitfox&Target=Affiliate_Offer&Method=findAll&api_key=a83c0b7a877ce4296e7ae9d38f5ce667ae6e70ffb77524747f74694bd06081a5&sort%5Bname%5D=asc"
+	api_uri = URI "http://api.hasoffers.com/Apiv3/json?NetworkId=hitfox&Target=Offer&Method=findAll&NetworkToken=NETPpPAhSoFvcEVRFbN3XLXkvlqzTs&filters%5Bstatus%5D=active"
 	response = Net::HTTP.start(api_uri.host, api_uri.port) do |http|
 	  request = Net::HTTP::Get.new api_uri.request_uri
 	  http.request request
 	end
 	response_body = JSON.parse response.body
-	body_length = response_body["response"]["data"].length
+	response_array = response_body["response"]["data"].values
+	body_length = response_body["response"]["data"].values.length
 	preview_url = response_body["response"]["data"]["919"]["Offer"]["preview_url"]
 	puts preview_url
 	bundle_id = preview_url.match(/\/id([^\/.]*)\?mt/)
 	puts bundle_id[1]
 	puts body_length
-	puts response_body["response"]["data"].last
-	for i in (919..919)
-		if response_body["response"]["data"]["#{i}"]
-			preview = response_body["response"]["data"]["#{i}"]["Offer"]["preview_url"]
-			bundle_id = preview.match(/\/id([^\/.]*)\?mt/)[1]
-			game_name = response_body["response"]["data"]["#{i}"]["Offer"]["name"]
-			if Game.find_by(bundle_id: bundle_id)
-				i = i+1
+	# puts response_array[0]
+	# puts response_array[0]["Offer"]["preview_url"]
+	#last_game = response_body["response"]["data"].values.last
+	#puts last_game["offer"]
+	#last_id = last_game["id"]
+	#puts last_id
+
+	for i in (0..(response_array.length - 1))
+			# preview = response_array[i]["Offer"]["preview_url"]
+			# bundle_id = preview.match(/\/id([^\/.]*)\?mt/)[1]
+			# game_name = response_array[i]["Offer"]["name"]
+			# if Game.find_by(bundle_id: bundle_id)
+			# 	i = i+1
+			# else
+			# 	puts game_name
+			# end
+		#puts response_array[i]["Offer"]["preview_url"]
+		preview = response_array[i]["Offer"]["preview_url"]
+		#bundle_id = preview.match(/\/id([^\/.]*)\?mt/)
+		game_name = response_array[i]["Offer"]["name"]
+		if preview.match(/\/id([^\/.]*)\?mt/)
+			bundle_id = preview.match(/\/id([^\/.]*)\?mt/)
+			if Game.find_by(bundle_id: bundle_id[1])
+				i = i +1
 			else
-				puts game_name
+				Game.create(game_name: game_name, platform: "iOS", bundle_id: bundle_id, in_db: false)
+				puts bundle_id[1]
+				puts response_array[i]["Offer"]["name"]
 			end
+			#example bundle ids: https://play.google.com/store/apps/details?id=air.com.playtika.slotomania
+			#https://play.google.com/store/apps/details?id=com.nexon.sjhg&hl=ko
+		#else if preview.match(/\/id([^\/.]*)\?mt/)
 		else
-			i = i+1
+			#puts preview
+			i = i + 1
 		end
 	end
 
