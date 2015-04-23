@@ -44,9 +44,26 @@ task :get_HO_applift_games => :environment do
 				puts bundle_id[1]
 				puts response_array[i]["Offer"]["name"]
 			end
+		elsif preview.match('(?<=id=).*(?=\&)')
+			bundle_id = preview.match('(?<=id=).*(?=\&)')
+			if Game.find_by(bundle_id: bundle_id[1])
+				i = i +1
+			else
+				Game.create(game_name: game_name, platform: "Android", bundle_id: bundle_id, in_db: false)
+				puts bundle_id[0]
+				puts response_array[i]["Offer"]["name"]
+			end	
+		elsif preview.match('(?<=id=).*')
+			bundle_id = preview.match('(?<=id=).*')
+			if Game.find_by(bundle_id: bundle_id[1])
+				i = i +1
+			else
+				Game.create(game_name: game_name, platform: "Android", bundle_id: bundle_id, in_db: false)
+				puts bundle_id[0]
+				puts response_array[i]["Offer"]["name"]
+			end				
 			#example bundle ids: https://play.google.com/store/apps/details?id=air.com.playtika.slotomania
-			#https://play.google.com/store/apps/details?id=com.nexon.sjhg&hl=ko
-		#else if preview.match(/\/id([^\/.]*)\?mt/)
+			#https://play.google.com/store/apps/details?id=com.nexon.sjhg&hl=ko					
 		else
 			#puts preview
 			i = i + 1
