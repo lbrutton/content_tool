@@ -2,7 +2,7 @@ require 'net/http'
 desc "get games from Applift HO and add to DB"
 task :get_HO_applift_games => :environment do 
 	puts "starting task..."
-	api_uri = URI "http://api.hasoffers.com/Apiv3/json?NetworkId=hitfox&Target=Offer&Method=findAll&NetworkToken=NETPpPAhSoFvcEVRFbN3XLXkvlqzTs&filters%5Bstatus%5D=active"
+	api_uri = URI "http://api.hasoffers.com/Apiv3/json?NetworkId=hitfox&Target=Offer&Method=findAll&NetworkToken=NETPpPAhSoFvcEVRFbN3XLXkvlqzTs&filters%5Bis_private%5D%5BFALSE%5D=1&filters%5Bstatus%5D=active"
 	response = Net::HTTP.start(api_uri.host, api_uri.port) do |http|
 	  request = Net::HTTP::Get.new api_uri.request_uri
 	  http.request request
