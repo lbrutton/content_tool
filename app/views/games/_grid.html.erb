@@ -17,11 +17,19 @@
   end
 
   g.column name: 'Landscape image', attribute:'landscape' do |task|
-    link_to 'See image', task.landscape, :target => "_blank"
+    if task.landscape != "empty"
+      link_to 'See banner', task.landscape, :target => "_blank"
+    else
+      task.landscape
+    end
   end
 
   g.column name: 'Portrait image', attribute:'portrait' do |task|
-    link_to 'See image', task.portrait, :target => "_blank"
+    if task.portrait != "empty"
+      link_to 'See banner', task.portrait, :target => "_blank"
+    else
+      task.portrait
+    end
   end
 
   g.column name:'300x250 banner', attribute:'square_banner' do |task|
