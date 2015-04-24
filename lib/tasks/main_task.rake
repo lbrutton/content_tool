@@ -37,39 +37,43 @@ task :main_task => :environment do
 	for i in (0..(response_array.length - 1))
 		preview = response_array[i]["Offer"]["preview_url"]
 		game_name = response_array[i]["Offer"]["name"]
-		# check for iOS bundle id
-		if preview.match(/\/id([^\/.]*)\?mt/)
-			bundle_id = preview.match(/\/id([^\/.]*)\?mt/)
-			if Game.find_by(bundle_id: bundle_id[1])
-				i = i +1
+		if !game_name["Pro Sniper"]
+			# check for iOS bundle id
+			if preview.match(/\/id([^\/.]*)\?mt/)
+				bundle_id = preview.match(/\/id([^\/.]*)\?mt/)
+				if Game.find_by(bundle_id: bundle_id[1])
+					i = i +1
+				else
+					Game.create(game_name: game_name, platform: "iOS", bundle_id: bundle_id, in_db: false)
+					puts bundle_id[1]
+					puts response_array[i]["Offer"]["name"]
+				end
+			# check for play store bundle id, with "hl=" at the end, or something similar
+			elsif preview.match('(?<=id=).*(?=\&)')
+				bundle_id = preview.match('(?<=id=).*(?=\&)')
+				if Game.find_by(bundle_id: bundle_id[1])
+					i = i +1
+				else
+					Game.create(game_name: game_name, platform: "Android", bundle_id: bundle_id, in_db: false)
+					puts bundle_id[0]
+					puts response_array[i]["Offer"]["name"]
+				end	
+			#  finally, look for preview links with just a bundle id at the end, then nothing
+			elsif preview.match('(?<=id=).*')
+				bundle_id = preview.match('(?<=id=).*')
+				if Game.find_by(bundle_id: bundle_id[1])
+					i = i +1
+				else
+					Game.create(game_name: game_name, platform: "Android", bundle_id: bundle_id, in_db: false)
+					puts bundle_id[0]
+					puts response_array[i]["Offer"]["name"]
+				end	
+			# if not found, move to next i								
 			else
-				Game.create(game_name: game_name, platform: "iOS", bundle_id: bundle_id, in_db: false)
-				puts bundle_id[1]
-				puts response_array[i]["Offer"]["name"]
+				i = i + 1
 			end
-		# check for play store bundle id, with "hl=" at the end, or something similar
-		elsif preview.match('(?<=id=).*(?=\&)')
-			bundle_id = preview.match('(?<=id=).*(?=\&)')
-			if Game.find_by(bundle_id: bundle_id[1])
-				i = i +1
-			else
-				Game.create(game_name: game_name, platform: "Android", bundle_id: bundle_id, in_db: false)
-				puts bundle_id[0]
-				puts response_array[i]["Offer"]["name"]
-			end	
-		#  finally, look for preview links with just a bundle id at the end, then nothing
-		elsif preview.match('(?<=id=).*')
-			bundle_id = preview.match('(?<=id=).*')
-			if Game.find_by(bundle_id: bundle_id[1])
-				i = i +1
-			else
-				Game.create(game_name: game_name, platform: "Android", bundle_id: bundle_id, in_db: false)
-				puts bundle_id[0]
-				puts response_array[i]["Offer"]["name"]
-			end	
-		# if not found, move to next i								
 		else
-			i = i + 1
+			i += 1
 		end
 	end
 	# After filling DB with present and missing games, check cells for actual URLs. Any cell that is "" or 
