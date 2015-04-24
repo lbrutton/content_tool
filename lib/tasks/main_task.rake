@@ -38,7 +38,7 @@ task :main_task => :environment do
 		preview = response_array[i]["Offer"]["preview_url"]
 		game_name = response_array[i]["Offer"]["name"]
 		# exclude every offer with redirect in the name
-		if !game_name.match('(?i)redirect')
+		if !game_name.match('(?i)redirect') and !game_name["Pro Sniper"]
 			# check for iOS bundle id
 			if preview.match(/\/id([^\/.]*)\?mt/)
 				bundle_id = preview.match(/\/id([^\/.]*)\?mt/)
