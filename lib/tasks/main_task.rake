@@ -40,8 +40,8 @@ task :main_task => :environment do
 		# exclude every offer with redirect in the name
 		if !game_name.match('(?i)redirect') and !game_name["Pro Sniper"]
 			# check for iOS bundle id
-			if preview.match('(?<=/id).*(?=\?)')
-				bundle_id = preview.match('(?<=/id).*(?=\?)')
+			if preview.match('(?<=/id).*(?=\/)')
+				bundle_id = preview.match('(?<=/id).*(?=\/)')
 				if Game.find_by(bundle_id: bundle_id[0])
 					i += 1
 				else
@@ -49,6 +49,15 @@ task :main_task => :environment do
 					puts bundle_id[0]
 					puts response_array[i]["Offer"]["name"]
 				end
+			elsif 	preview.match('(?<=/id).*(?=\?)')
+				bundle_id = preview.match('(?<=/id).*(?=\?)')
+				if Game.find_by(bundle_id: bundle_id[0])
+					i += 1
+				else
+					Game.create(game_name: game_name, platform: "iOS", bundle_id: bundle_id, in_db: false)
+					puts bundle_id[0]
+					puts response_array[i]["Offer"]["name"]
+				end			
 			elsif preview.match('(?<=/id).*')
 				bundle_id = preview.match('(?<=id).*')
 				if Game.find_by(bundle_id: bundle_id[0])
