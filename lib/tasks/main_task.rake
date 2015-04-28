@@ -27,7 +27,8 @@ task :main_task => :environment do
 		end
 	# get offers from HasOffers API
 	api_uri = URI "http://api.hasoffers.com/Apiv3/json?NetworkId=hitfox&Target=Offer&Method=findAll&NetworkToken=NETPpPAhSoFvcEVRFbN3XLXkvlqzTs&filters%5Bis_private%5D%5BFALSE%5D=1&filters%5Bstatus%5D=active"
-	response = Net::HTTP.start(api_uri.host, api_uri.port) do |http|
+	proxy = URI "http://quotaguard2619:dd0d6e315d59@us-east-1-static-brooks.quotaguard.com:9293"
+	response = Net::HTTP.start(api_uri.host, api_uri.port, proxy.host, proxy.port, proxy.user, 'dd0d6e315d59') do |http|
 	  request = Net::HTTP::Get.new api_uri.request_uri
 	  http.request request
 	end
