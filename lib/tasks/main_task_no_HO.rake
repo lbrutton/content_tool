@@ -1,5 +1,5 @@
 require 'net/http'
-desc "fill database with bulk API apps, cross-check with offers from HasOffers, then fill empty creative slots"
+desc "fill database with bulk API apps then fill empty creative slots"
 task :main_task_no_HO => :environment do 
 	puts "starting task..."
 	# get games from bulk API

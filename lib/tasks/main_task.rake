@@ -12,19 +12,19 @@ task :main_task => :environment do
 	Rake::Task['db:reset'].invoke
 	body_length = response_body.length
 	# add those games to DB
-		for i in (0..body_length-1)
-			Game.create(game_name: response_body[i]["creatives"]["title"],
-				platform: response_body[i]["app_details"]["platform"],				
-				bundle_id: response_body[i]["app_details"]["bundle_id"],
-				in_db: true,
-				english_vid: response_body[i]["creatives"]["video_url"],
-				portrait: response_body[i]["creatives"]["portrait_banner_url"],
-				landscape: response_body[i]["creatives"]["banner_url"],
-				square_banner: response_body[i]["creatives"]["standard_interstitial_url"],
-				flat_banner: response_body[i]["creatives"]["standard_banner_url"],
-				english_promo: response_body[i]["creatives"]["description"])
-			puts response_body[i]["creatives"]["title"]
-		end
+	for i in (0..body_length-1)
+		Game.create(game_name: response_body[i]["creatives"]["title"],
+			platform: response_body[i]["app_details"]["platform"],				
+			bundle_id: response_body[i]["app_details"]["bundle_id"],
+			in_db: true,
+			english_vid: response_body[i]["creatives"]["video_url"],
+			portrait: response_body[i]["creatives"]["portrait_banner_url"],
+			landscape: response_body[i]["creatives"]["banner_url"],
+			square_banner: response_body[i]["creatives"]["standard_interstitial_url"],
+			flat_banner: response_body[i]["creatives"]["standard_banner_url"],
+			english_promo: response_body[i]["creatives"]["description"])
+		puts response_body[i]["creatives"]["title"]
+	end
 	# get offers from HasOffers API
 	api_uri = URI "http://api.hasoffers.com/Apiv3/json?NetworkId=hitfox&Target=Offer&Method=findAll&NetworkToken=NETPpPAhSoFvcEVRFbN3XLXkvlqzTs&filters%5Bis_private%5D%5BFALSE%5D=1&filters%5Bstatus%5D=active"
 	proxy = URI "http://quotaguard2619:dd0d6e315d59@us-east-1-static-brooks.quotaguard.com:9293"
@@ -150,4 +150,3 @@ task :main_task => :environment do
 		end
 		puts "task finished"
 end
-
