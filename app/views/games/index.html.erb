@@ -11,6 +11,12 @@
   Games without video in the requested language: <%= @total_games_without_video %> / <%= @total_games %>
 </div>
 
+<% if user_signed_in? %>
+  <%= button_to('Logout', destroy_user_session_path, :method => :delete) %>        
+<% else %>
+  <%= button_to('Login', new_user_session_path)  %>  
+<% end %>
+
 <h1 class="header text-center"> Content tool </h1>
 <div class="main-page">
   <div class="row-fluid">

@@ -1,4 +1,5 @@
 class GamesController < ApplicationController
+  before_action :authenticate_user!
 	def index
 		#@games = Game.all
 		@tasks_grid = initialize_grid(Game)
