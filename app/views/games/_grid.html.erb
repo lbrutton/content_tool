@@ -8,6 +8,10 @@
     task.game_name
   end
 
+  g.column name: 'Bundle_id', attribute:'bundle_id' do |task|
+    task.bundle_id
+  end
+
   g.column name: 'Platform', attribute:'platform', custom_filter: ['iOS', 'Android'] do |task|
     task.platform
   end

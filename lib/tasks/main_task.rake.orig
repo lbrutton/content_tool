@@ -12,23 +12,22 @@ task :main_task => :environment do
 	Rake::Task['db:reset'].invoke
 	body_length = response_body.length
 	# add those games to DB
-	for i in (0..body_length-1)
-		Game.create(game_name: response_body[i]["creatives"]["title"],
-			platform: response_body[i]["app_details"]["platform"],				
-			bundle_id: response_body[i]["app_details"]["bundle_id"],
-			in_db: true,
-			english_vid: response_body[i]["creatives"]["video_url"],
-			portrait: response_body[i]["creatives"]["portrait_banner_url"],
-			landscape: response_body[i]["creatives"]["banner_url"],
-			square_banner: response_body[i]["creatives"]["standard_interstitial_url"],
-			flat_banner: response_body[i]["creatives"]["standard_banner_url"],
-			english_promo: response_body[i]["creatives"]["description"])
-		puts response_body[i]["creatives"]["title"]
-	end
+		for i in (0..body_length-1)
+			Game.create(game_name: response_body[i]["creatives"]["title"],
+				platform: response_body[i]["app_details"]["platform"],				
+				bundle_id: response_body[i]["app_details"]["bundle_id"],
+				in_db: true,
+				english_vid: response_body[i]["creatives"]["video_url"],
+				portrait: response_body[i]["creatives"]["portrait_banner_url"],
+				landscape: response_body[i]["creatives"]["banner_url"],
+				square_banner: response_body[i]["creatives"]["standard_interstitial_url"],
+				flat_banner: response_body[i]["creatives"]["standard_banner_url"],
+				english_promo: response_body[i]["creatives"]["description"])
+			puts response_body[i]["creatives"]["title"]
+		end
 	# get offers from HasOffers API
 	api_uri = URI "http://api.hasoffers.com/Apiv3/json?NetworkId=hitfox&Target=Offer&Method=findAll&NetworkToken=NETPpPAhSoFvcEVRFbN3XLXkvlqzTs&filters%5Bis_private%5D%5BFALSE%5D=1&filters%5Bstatus%5D=active"
-	proxy = URI "http://quotaguard2619:dd0d6e315d59@us-east-1-static-brooks.quotaguard.com:9293"
-	response = Net::HTTP.start(api_uri.host, api_uri.port, proxy.host, proxy.port, proxy.user, 'dd0d6e315d59') do |http|
+	response = Net::HTTP.start(api_uri.host, api_uri.port) do |http|
 	  request = Net::HTTP::Get.new api_uri.request_uri
 	  http.request request
 	end
@@ -38,41 +37,35 @@ task :main_task => :environment do
 	for i in (0..(response_array.length - 1))
 		preview = response_array[i]["Offer"]["preview_url"]
 		game_name = response_array[i]["Offer"]["name"]
+<<<<<<< HEAD
+		if !game_name["Pro Sniper"]
+=======
 		# exclude every offer with redirect in the name
-		if !game_name.match('(?i)redirect') and !game_name["Pro Sniper"]
+		if !game_name.match('(?i)redirect')
+>>>>>>> master
 			# check for iOS bundle id
-			if preview.match('(?<=/id).*(?=\/)')
-				bundle_id = preview.match('(?<=/id).*(?=\/)')
-				if Game.find_by(bundle_id: bundle_id[0])
+			if preview.match(/\/id([^\/.]*)\?mt/)
+				bundle_id = preview.match(/\/id([^\/.]*)\?mt/)
+				if Game.find_by(bundle_id: bundle_id[1])
+<<<<<<< HEAD
+					i = i +1
+=======
 					i += 1
+>>>>>>> master
 				else
 					Game.create(game_name: game_name, platform: "iOS", bundle_id: bundle_id, in_db: false)
-					puts bundle_id[0]
-					puts response_array[i]["Offer"]["name"]
-				end
-			elsif 	preview.match('(?<=/id).*(?=\?)')
-				bundle_id = preview.match('(?<=/id).*(?=\?)')
-				if Game.find_by(bundle_id: bundle_id[0])
-					i += 1
-				else
-					Game.create(game_name: game_name, platform: "iOS", bundle_id: bundle_id, in_db: false)
-					puts bundle_id[0]
-					puts response_array[i]["Offer"]["name"]
-				end			
-			elsif preview.match('(?<=/id).*')
-				bundle_id = preview.match('(?<=id).*')
-				if Game.find_by(bundle_id: bundle_id[0])
-					i += 1
-				else
-					Game.create(game_name: game_name, platform: "iOS", bundle_id: bundle_id, in_db: false)
-					puts bundle_id[0]
+					puts bundle_id[1]
 					puts response_array[i]["Offer"]["name"]
 				end
 			# check for play store bundle id, with "hl=" at the end, or something similar
 			elsif preview.match('(?<=id=).*(?=\&)')
 				bundle_id = preview.match('(?<=id=).*(?=\&)')
 				if Game.find_by(bundle_id: bundle_id[1])
+<<<<<<< HEAD
+					i = i +1
+=======
 					i += 1
+>>>>>>> master
 				else
 					Game.create(game_name: game_name, platform: "Android", bundle_id: bundle_id, in_db: false)
 					puts bundle_id[0]
@@ -82,7 +75,11 @@ task :main_task => :environment do
 			elsif preview.match('(?<=id=).*')
 				bundle_id = preview.match('(?<=id=).*')
 				if Game.find_by(bundle_id: bundle_id[1])
+<<<<<<< HEAD
+					i = i +1
+=======
 					i += 1
+>>>>>>> master
 				else
 					Game.create(game_name: game_name, platform: "Android", bundle_id: bundle_id, in_db: false)
 					puts bundle_id[0]
@@ -90,9 +87,15 @@ task :main_task => :environment do
 				end	
 			# if not found, move to next i								
 			else
-				puts "Failed on: #{game_name}"
+<<<<<<< HEAD
+				i = i + 1
+			end
+		else
+			i += 1
+=======
 				i += 1
 			end
+>>>>>>> master
 		end
 	end
 	# After filling DB with present and missing games, check cells for actual URLs. Any cell that is "" or 
@@ -150,3 +153,4 @@ task :main_task => :environment do
 		end
 		puts "task finished"
 end
+
