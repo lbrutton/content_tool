@@ -2,7 +2,7 @@
   <h4> General overview (very rough draft) </h4>
   Total games available for this account: <%= @total_games %>
   <br>
-  Games without promo text in the requested language: <%= @total_games_without_promo %> / <%= @total_games %>
+  Games without promo text in the requested language: <%= (@total_games_without_promo.to_f/@total_games.to_f)*100 %> %
   <br>
   Games without 300x250 banners: <%= @total_games_without_square_banners %> / <%= @total_games %>
   <br>
@@ -11,11 +11,7 @@
   Games without video in the requested language: <%= @total_games_without_video %> / <%= @total_games %>
 </div>
 
-<% if user_signed_in? %>
-  <%= button_to('Logout', destroy_user_session_path, :method => :delete) %>        
-<% else %>
-  <%= button_to('Login', new_user_session_path)  %>  
-<% end %>
+  <%= link_to('Logout', destroy_user_session_path, :method => :delete, class:"btn btn-default") %>        
 
 <h1 class="header text-center"> Content tool </h1>
 <div class="main-page">
