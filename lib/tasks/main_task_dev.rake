@@ -25,7 +25,8 @@ namespace :apis_task_dev do
         landscape: response_body[i]["creatives"]["banner_url"],
         square_banner: response_body[i]["creatives"]["standard_interstitial_url"],
         flat_banner: response_body[i]["creatives"]["standard_banner_url"],
-        english_promo: response_body[i]["creatives"]["description"])
+        english_promo: response_body[i]["creatives"]["description"],
+        category: response_body[i]["app_details"]["category"])
       puts response_body[i]["creatives"]["title"]
     end
     # get offers from HasOffers API
