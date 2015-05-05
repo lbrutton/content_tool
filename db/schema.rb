@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150429134354) do
+ActiveRecord::Schema.define(version: 20150505085249) do
 
   create_table "games", force: :cascade do |t|
     t.string   "game_name"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 20150429134354) do
     t.string   "english_promo"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.string   "category"
   end
 
   create_table "users", force: :cascade do |t|

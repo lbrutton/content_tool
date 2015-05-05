@@ -1,8 +1,9 @@
-require 'net/http'
+#same as main_task_v2, but without the proxy because it isn't needed, only to be used in dev - will be 
+#changed use the environment as a parameter passed to the task when someone has time
 
-namespace :apis_task do
+namespace :apis_task_dev do
   desc "fill database with bulk API apps, cross-check with offers from HasOffers, then fill empty creative slots"
-  task :main_task_v2 => :environment do 
+  task :main_task_dev => :environment do 
     puts "starting task..."
     # get games from bulk API
     api_uri = URI "http://bulk.applift.com/api/bulk/v1/promotions?app_token=cc2a5ccfbfb53107ae12cb908c2b8799c81556ba5f12cc3fe61fe96606a80210"
@@ -30,8 +31,8 @@ namespace :apis_task do
     end
     # get offers from HasOffers API
     api_uri = URI "http://api.hasoffers.com/Apiv3/json?NetworkId=hitfox&Target=Offer&Method=findAll&NetworkToken=NETPpPAhSoFvcEVRFbN3XLXkvlqzTs&filters%5Bis_private%5D%5BFALSE%5D=1&filters%5Bstatus%5D=active"
-    proxy = URI "http://quotaguard2619:dd0d6e315d59@us-east-1-static-brooks.quotaguard.com:9293"
-    response = Net::HTTP.start(api_uri.host, api_uri.port, proxy.host, proxy.port, proxy.user, 'dd0d6e315d59') do |http|
+    # proxy = URI "http://quotaguard2619:dd0d6e315d59@us-east-1-static-brooks.quotaguard.com:9293"
+    response = Net::HTTP.start(api_uri.host, api_uri.port) do |http|
       request = Net::HTTP::Get.new api_uri.request_uri
       http.request request
     end
@@ -89,8 +90,7 @@ namespace :apis_task do
     end
     # get offers from Appiris API
     api_uri = URI "http://api.hasoffers.com/Apiv3/json?NetworkId=hitfox&Target=Offer&Method=findAll&NetworkToken=NETPpPAhSoFvcEVRFbN3XLXkvlqzTs&filters%5Brequire_approval%5D%5BFALSE%5D=1&filters%5Bis_private%5D%5BFALSE%5D=1&filters%5Bstatus%5D=active"
-    proxy = URI "http://quotaguard2619:dd0d6e315d59@us-east-1-static-brooks.quotaguard.com:9293"
-    response = Net::HTTP.start(api_uri.host, api_uri.port, proxy.host, proxy.port, proxy.user, 'dd0d6e315d59') do |http|
+    response = Net::HTTP.start(api_uri.host, api_uri.port) do |http|
       request = Net::HTTP::Get.new api_uri.request_uri
       http.request request
     end
@@ -161,7 +161,7 @@ namespace :apis_task do
   end
 
   desc "fill database with bulk API apps, then fill empty creative slots"
-  task :main_task_no_HO_v2 => :environment do 
+  task :main_task_no_HO_dev => :environment do 
     puts "starting task..."
     # get games from bulk API
     api_uri = URI "http://bulk.applift.com/api/bulk/v1/promotions?app_token=cc2a5ccfbfb53107ae12cb908c2b8799c81556ba5f12cc3fe61fe96606a80210"
@@ -198,7 +198,7 @@ namespace :apis_task do
     puts "task finished"
   end
 
-  task :all => [:main_task_v2, :main_task_no_HO_v2]
+  task :all => [:main_task_dev, :main_task_no_HO_dev]
   
   def find_game
     Game.find_by(bundle_id: @bundle_id[1]) 
