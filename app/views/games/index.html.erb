@@ -2,13 +2,13 @@
   <h4> General overview (very rough draft) </h4>
   Total games available for this account: <%= @total_games %>
   <br>
-  Games without promo text in the requested language: <%= (@total_games_without_promo.to_f/@total_games.to_f)*100 %> %
+  Games without promo text in the requested language: <%= (@total_games_without_promo/@total_games).round(3)*100 %> %
   <br>
-  Games without 300x250 banners: <%= @total_games_without_square_banners %> / <%= @total_games %>
+  Games without 300x250 banners: <%= (@total_games_without_square_banners/@total_games).round(2)*100 %> %
   <br>
-  Games without 320x50 banners: <%= @total_games_without_flat_banners %> / <%= @total_games %>
+  Games without 320x50 banners: <%= (@total_games_without_flat_banners/@total_games).round(3)*100 %> %
   <br>
-  Games without video in the requested language: <%= @total_games_without_video %> / <%= @total_games %>
+  Games without video in the requested language: <%= (@total_games_without_video/@total_games).round(3)*100 %> %
 </div>
 
   <%= link_to('Logout', destroy_user_session_path, :method => :delete, class:"btn btn-default") %>        
