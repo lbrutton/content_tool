@@ -1,21 +1,77 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
+body{
+  padding-top:47px;
+  background-color:#fdf7ed
+}
+
 .main-page{
 	margin:0 5% 5% 5%
 }
 
-.header{
-	color: #337ab7;
+.main-bar{
+  background-color:#e0e0e0;
+}
+
+.page-title{
+	color:#337ab7
+}
+
+.nav-dashboard{
+  min-height:47px;
+  background-image:-webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #5c5755), color-stop(100%, #413d3b));
+  background-image:-webkit-linear-gradient(#5c5755, #413d3b);
+  background-image:-moz-linear-gradient(#5c5755, #413d3b);
+  background-image:-o-linear-gradient(#5c5755, #413d3b);
+  background-image:linear-gradient(#5c5755,#413d3b);
+  -webkit-box-shadow:#333333 0 0 2px;
+  box-shadow:#333333 0 0 2px
+}
+
+.navbar-default{
+  background-color:#484443;
+  border-color:#373433
+}
+
+.navbar-header{
+  padding-top:7px
+}
+
+.total{
+  margin:5px
+}
+
+.panel-body{
+  padding:1% 5%
+}
+
+.panel-info{
+  height:70px
 }
 
 .dashboard-widget{
-	background-color: green;
-	width: 100%;
-	color: white;
-	padding: 2%
+  position:relative;
+  background-color:green;
+  width:100%;
+  padding:2%;
+  color:white
 }
 
 .login{
 	margin-top:10%;
+}
+
+ul{
+  float:right;
+  margin-bottom:0;
+  list-style:none
+}
+
+.btn{
+  border-radius:0
+}
+
+.btn-default{
+  padding:12px 9px
 }
