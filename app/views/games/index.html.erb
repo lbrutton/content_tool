@@ -35,7 +35,7 @@
           <strong>Games without promo text</strong>
         </div>
         <div class="panel-body text-center align-center">
-          <%= (@total_games_without_promo.to_f/@total_games.to_f)*100 %> %
+          <%= (@total_games_without_promo/@total_games).round(3)*100 %> %
         </div>
       </div>
     </div>
@@ -45,7 +45,7 @@
           <strong>Games without 300x250 creatives</strong>
         </div>
         <div class="panel-body text-center align-center">
-          <%= @total_games_without_square_banners %> / <%= @total_games %>
+          <%= (@total_games_without_square_banners/@total_games).round(2)*100 %> %
         </div>
       </div>
     </div>
@@ -55,7 +55,7 @@
           <strong>Games wthout 320x50 creatives</strong>
         </div>
         <div class="panel-body text-center align-center">
-          <%= @total_games_without_flat_banners %> / <%= @total_games %>
+          <%= (@total_games_without_flat_banners/@total_games).round(3)*100 %> %
         </div>
       </div>
     </div>
@@ -65,7 +65,7 @@
           <strong>Games without video in the requested language</strong>
         </div>
         <div class="panel-body text-center align-center">
-          <%= @total_games_without_video %> / <%= @total_games %>
+          <%= (@total_games_without_video/@total_games).round(3)*100 %> %
         </div>
       </div>
     </div>
