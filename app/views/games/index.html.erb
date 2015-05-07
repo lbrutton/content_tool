@@ -1,19 +1,77 @@
-<div class="dashboard-widget">
-  <h4> General overview (very rough draft) </h4>
-  Total games available for this account: <%= @total_games %>
-  <br>
-  Games without promo text in the requested language: <%= (@total_games_without_promo/@total_games).round(3)*100 %> %
-  <br>
-  Games without 300x250 banners: <%= (@total_games_without_square_banners/@total_games).round(2)*100 %> %
-  <br>
-  Games without 320x50 banners: <%= (@total_games_without_flat_banners/@total_games).round(3)*100 %> %
-  <br>
-  Games without video in the requested language: <%= (@total_games_without_video/@total_games).round(3)*100 %> %
+<nav class="navbar navbar-default navbar-fixed-top nav-dashboard">
+  <div class="container">
+    <div class="navbar-header">
+      <%= image_tag("logo-apd-547a7dd01079245137ac7263c26353af.png") %>
+    </div>  
+    <div class="navbar-collapse collapse">
+      <ul class"nav navbar-nav navbar-right">
+        <li>
+          <%= link_to('Logout', destroy_user_session_path, :method => :delete, class:"btn btn-default") %>        
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="main-bar">
+  <div class="container">
+    <h4 class="glyphicon glyphicon-home page-title text-center"> Content tool &#47; Stats for this account</h4>
+  </div>
+</div>
+<div class="panel panel-default">
+  <div class="panel-body">
+    <div class="total pull-left">
+      <div class="panel panel-info">
+        <div class="panel-heading text-center">
+          <strong>Games available</strong>
+        </div>
+        <div class="panel-body text-center align-center">
+          <%= @total_games %>
+        </div>
+      </div>
+    </div>
+    <div class="total pull-left">
+      <div class="panel panel-info">
+        <div class="panel-heading text-center">
+          <strong>Games without promo text</strong>
+        </div>
+        <div class="panel-body text-center align-center">
+          <%= (@total_games_without_promo/@total_games).round(3)*100 %> %
+        </div>
+      </div>
+    </div>
+    <div class="total pull-left">
+      <div class="panel panel-info">
+        <div class="panel-heading text-center">
+          <strong>Games without 300x250 creatives</strong>
+        </div>
+        <div class="panel-body text-center align-center">
+          <%= (@total_games_without_square_banners/@total_games).round(2)*100 %> %
+        </div>
+      </div>
+    </div>
+    <div class="total pull-left">
+      <div class="panel panel-info">
+        <div class="panel-heading text-center">
+          <strong>Games wthout 320x50 creatives</strong>
+        </div>
+        <div class="panel-body text-center align-center">
+          <%= (@total_games_without_flat_banners/@total_games).round(3)*100 %> %
+        </div>
+      </div>
+    </div>
+    <div class="total pull-left">
+      <div class="panel panel-info">
+        <div class="panel-heading text-center">
+          <strong>Games without video in the requested language</strong>
+        </div>
+        <div class="panel-body text-center align-center">
+          <%= (@total_games_without_video/@total_games).round(3)*100 %> %
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
-  <%= link_to('Logout', destroy_user_session_path, :method => :delete, class:"btn btn-default") %>        
-
-<h1 class="header text-center"> Content tool </h1>
 <div class="main-page">
   <div class="row-fluid">
     <div class="span12">
