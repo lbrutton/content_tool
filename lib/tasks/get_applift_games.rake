@@ -2,7 +2,7 @@ require 'net/http'
 desc "get games from HO API and add to DB"
 task :get_applift_games => :environment do 
 	puts "starting task..."
-	api_uri = URI "https://spreadsheets.google.com/feeds/list/18nlFdVWLd4nQrN6f_UvLqQ4rgxvQ_XG2DdLG3Tf6yNg/od6/public/values?alt=json"
+	api_uri = URI #{spreadsheet_API_here}
 	response = Net::HTTP.start(api_uri.host, api_uri.port) do |http|
 	  request = Net::HTTP::Get.new api_uri.request_uri
 	  http.request request
